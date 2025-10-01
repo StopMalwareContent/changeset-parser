@@ -1,2 +1,3 @@
 # changeset-parser
-Parses changesets outputs and returns bumped packages as a joined string
+
+Parses changesets output and returns bumped packages as a joined string.

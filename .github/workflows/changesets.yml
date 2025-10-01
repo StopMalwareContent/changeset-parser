@@ -1,0 +1,40 @@
+name: Publish extension
+
+on:
+    push:
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+  changelog:
+    name: Changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout action
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1.5.3
+        with:
+            commit: Bump action
+            title: Bump action version with changesets
+            setupGitUser: true
+            createGithubReleases: true
+            commitMode: github-api
+            version: pnpm build && pnpm exec changeset version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

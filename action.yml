@@ -1,0 +1,14 @@
+name: Parse Changeset Status
+description: Parses changesets actions output.
+inputs:
+  bumped-packages:
+    description: 'Stringified JSON of a Changesets action output.'
+    required: true
+
+outputs:
+  parsed-packages:
+    description: 'Comma separated list of parsed package names'
+
+runs:
+  using: 'node20'
+  main: dist/index.js
