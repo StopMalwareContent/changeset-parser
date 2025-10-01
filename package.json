@@ -6,19 +6,19 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc && ncc build src/index.ts -o dist"
   },
   "keywords": [],
   "author": "",
   "license": "AGPL-3.0-only",
-  "packageManager": "pnpm@10.17.1",
   "devDependencies": {
-    "@changesets/cli": "^2.29.7",
-    "@types/node": "^24.6.1",
-    "prettier": "^3.6.2",
-    "typescript": "^5.9.3"
+    "@changesets/cli": "~2.29.7",
+    "@types/node": "~24.6.1",
+    "@vercel/ncc": "~0.38.4",
+    "prettier": "~3.6.2",
+    "typescript": "~5.9.3"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1"
+    "@actions/core": "~1.11.1"
   }
 }
