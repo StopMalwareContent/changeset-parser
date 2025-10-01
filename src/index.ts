@@ -5,21 +5,26 @@ interface ChangesetsOutput {
     version: string;
 }
 
-const bumpedPackages: string[] = [];
-
-const packages = () => {
+function main(): void {
     try {
-        return JSON.parse(core.getInput('bumped-packages', { required: true })) as ChangesetsOutput[]
+        const input = core.getInput('bumped-packages', { required: true });
+        const packages = JSON.parse(input) as ChangesetsOutput[];
+
+        const bumpedPackages: string[] = [];
+
+        for (const pkg of packages) {
+            bumpedPackages.push(pkg.name);
+        }
+
+        const output = bumpedPackages.join(',');
+        core.setOutput("parsed-packages", output);
+
+        core.info('Parsed packages:\n\n- ' + bumpedPackages.join('\n- '));
+
     } catch (error) {
-        core.setFailed(error as Error)
-        process.exit(256)
+        core.setFailed(`Failed to parse bumped packages: ${error}`);
+        process.exit(1);
     }
 }
 
-for (const pkg of packages()) {
-    bumpedPackages.push(pkg.name)
-}
-
-core.setOutput("parsed-packages", bumpedPackages.join('\n'))
-
-core.info('Written to output:\n\n- ' + bumpedPackages.join('\n- '))
+main();
